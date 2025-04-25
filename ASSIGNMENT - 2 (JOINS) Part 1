@@ -1,0 +1,132 @@
+                                                                                              Master your JOINS 
+DATA  
+create database data1;
+use data1;
+CREATE TABLE customers (
+    customer_id INT PRIMARY KEY,
+    name VARCHAR(50),
+    email VARCHAR(100),
+    city VARCHAR(50)
+);
+
+CREATE TABLE orders (
+    order_id INT PRIMARY KEY,
+    customer_id INT,
+    order_date DATE,
+    amount DECIMAL(10, 2),
+    FOREIGN KEY (customer_id) REFERENCES customers(customer_id)
+);
+
+
+INSERT INTO customers (customer_id, name, email, city) VALUES
+(1, 'Aman Verma', 'aman@gmail.com', 'Delhi'),
+(2, 'Priya Mehta', 'priya@gmail.com', 'Mumbai'),
+(3, 'Rahul Sharma', 'rahul@gmail.com', 'Delhi'),
+(4, 'Sneha Gupta', 'sneha@gmail.com', 'Bangalore'),
+(5, 'Karan Singh', 'karan@gmail.com', 'Chennai'),
+(6, 'Anjali Desai', 'anjali@gmail.com', 'Hyderabad'),
+(7, 'Vikram Rathore', 'vikram@gmail.com', 'Kolkata'),
+(8, 'Divya Kapoor', 'divya@gmail.com', 'Pune');
+
+
+INSERT INTO orders (order_id, customer_id, order_date, amount) VALUES
+(101, 1, '2024-03-10', 1500.00),
+(102, 2, '2024-03-12', 2200.00),
+(103, 1, '2024-03-15', 800.00),
+(104, 3, '2024-03-20', 4500.00),
+(105, 5, '2024-03-25', 1200.00),
+(106, 2, '2024-03-30', 500.00),
+(107, 1, '2024-04-01', 3000.00),
+(108, 6, '2024-04-05', 900.00),
+(109, 3, '2024-04-06', 350.00),
+(110, 4, '2024-04-08', 2200.00);
+
+
+
+
+                                                                                             QUESTIONS
+
+
+Q-1 Show all customers and their orders using an INNER JOIN.
+sol:
+SELECT name , order_id
+      FROM customers
+      INNER JOIN orders
+      ON customers.customer_id = orders.customer_id;
+
+
+Q-2 Show all orders with customer names (combine orders and customers).
+
+SELECT name , order_id
+       FROM customers
+       JOIN orders
+       on customers.customer_id = orders.customer_id;
+
+
+Q-3 List all customers — even those who didn’t place any orders (LEFT JOIN).
+
+SELECT name , customers.customer_id , order_id
+       FROM customers 
+       LEFT JOIN orders
+       ON customers.customer_id = orders.customer_id; 
+
+
+Q-4 Show orders that have no matching customer (RIGHT JOIN or LEFT JOIN with WHERE customer_id IS NULL).
+
+SELECT customers.customer_id,name,order_id
+       FROM orders
+       LEFT JOIN customers
+       ON customers.customer_id = orders.customer_id
+       WHERE customers.customer_id is not null;
+
+
+Q-5 Count total number of customers who have placed at least one order.
+
+SELECT COUNT(DISTINCT customer_id) AS total_orders
+       FROM orders;
+
+
+Q-6 Show the name and email of customers who ordered above ₹1000.
+
+SELECT name , email,amount
+       from customers
+       JOIN orders
+       on orders.customer_id = customers.customer_id
+       where amount>1000;
+
+
+Q-7 Get a list of cities and how many customers are from each (GROUP BY city).
+
+SELECT city ,count(*) AS total_customers
+       FROM customers 
+       GROUP BY city;
+
+Q-8 Show each customer's total number of orders.
+
+SELECT orders.customer_id ,name, count(*) as number_of_orders
+       from orders
+       JOIN customers
+       ON customers.customer_id = orders.customer_id
+       GROUP BY customer_id,name;
+
+
+Q-9 Show each customer's total spending (SUM(amount)).list top 5 spending customers.
+
+SELECT customer_id , sum(amount) AS total_spending
+       FROM orders
+       GROUP BY customer_id
+       ORDER BY total_spending DESC
+       LIMIT 5;
+
+
+Q-10 Find the customer(s) who haven't placed any orders.
+
+SELECT customers.customer_id, name
+      from customers
+      LEFT JOIN orders
+      ON customers.customer_id = orders.customer_id
+      WHERE order_id is null;
+
+
+
+
