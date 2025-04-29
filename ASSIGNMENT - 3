@@ -1,0 +1,38 @@
+                                                                COLLECT DATA FROM ASSIGNMENT-1
+
+
+Q1-Write an SQL query to print details for Workers with the first name “Vipul” and “Satish” from Worker table.
+
+SELECT *
+      FROM worker
+      WHERE FIRST_NAME IN ('VIPUL','SATISH');
+      
+      
+                            
+Q2-Write an SQL query to print details of the Workers whose FIRST_NAME ends with ‘h’.
+
+SELECT *
+      FROM worker
+      WHERE FIRST_NAME LIKE "%H" ;
+      
+      
+Q3-Write an SQL query to print details of the Workers whose SALARY lies between 100000 and 500000.
+
+SELECT * 
+      FROM worker
+      WHERE SALARY BETWEEN 100000 AND 500000;
+      
+      
+Q4- Write an SQL query to fetch the count of employees working in the department ‘Admin’.
+
+SELECT COUNT(*) as ADMIN_EMPLOYE 
+      FROM worker 
+      COUNT WHERE DEPARTMENT = 'ADMIN';
+
+                                  
+Q5- Write an SQL query to fetch worker names with SALARY >= 50000 and <=100000.
+
+SELECT 
+     FIRST_NAME , LAST_NAME , SALARY
+     FROM WORKER
+     WHERE SALARY >=50000 AND SALARY <=100000;
